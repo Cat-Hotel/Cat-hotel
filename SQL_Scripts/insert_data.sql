@@ -1,50 +1,64 @@
 USE CatHotel;
 GO
 
--- Inserting data into CatParent table
 INSERT INTO CatParent (FirstName, LastName, CellNumber, EmailAddress)
-VALUES 
-    ('Alice', 'Johnson', '0821234567', 'alice.johnson@example.com'),
-    ('Michael', 'Smith', '0839876543', 'michael.smith@example.com'),
-    ('Emily', 'Brown', '0711112222', 'emily.brown@example.com'),
-    ('Daniel', 'Martinez', '0644445555', 'daniel.martinez@example.com'),
-    ('Sophia', 'Davis', '0797778888', 'sophia.davis@example.com');
+VALUES
+('Emily', 'Johnson', '0123456789', 'emily.johnson@example.com'),
+('Daniel', 'Williams', '0987654321', 'daniel.williams@example.com'),
+('Olivia', 'Garcia', '0112233445', 'olivia.garcia@example.com'),
+('Liam', 'Chen', '0998877665', 'liam.chen@example.com'),
+('Sophia', 'Lee', '0123345678', 'sophia.lee@example.com'),
+('Ethan', 'Campbell', '0987634321', 'ethan.campbell@example.com');
+GO
 
--- Inserting data into Staff table
-INSERT INTO Staff (FirstName, LastName, DateOfBirth, CellNumber)
-VALUES 
-    ('Emma', 'Anderson', '1992-08-25', '0785551111'),
-    ('Jacob', 'Wilson', '1988-04-12', '0766663333'),
-    ('Olivia', 'Martinez', '1995-12-01', '0827774444'),
-    ('Ethan', 'Taylor', '1987-06-18', '0738885555'),
-    ('Isabella', 'Garcia', '1990-03-07', '0839996666');
-
--- Inserting data into Food table
 INSERT INTO Food (FoodName, Description)
-VALUES 
-    ('Grain-Free Dry Food', 'Premium grain-free dry cat food'),
-    ('Seafood Medley Wet Food', 'A blend of seafood flavors in wet cat food'),
-    ('Senior Formula', 'Special formula for older cats'),
-    ('Organic Chicken', 'Organic chicken-based cat food'),
-    ('Vegetarian Delight', 'Vegetarian cat food with essential nutrients');
+VALUES
+('Royal Canin', 'Specially formulated kibble for all life stages, supports healthy digestion'),
+('Whiskas', 'Moist and flavorful pouches, perfect for picky eaters'),
+('Acana', 'Grain-free, protein-rich formula for active cats'),
+('Nutribyte', 'Balanced nutrition with added vitamins and minerals for overall health'),
+('Catmore', 'Delicious wet food with real meat and vegetables'),
+('Feline Cuisine', 'Gourmet recipes for the discerning feline palate, good for bones');
+GO
 
--- Inserting data into Food table
-INSERT INTO Cat (CatName, DateOfBirth, Sex, FoodID, CatParentID)
-VALUES 
-    ('Whiskers', '2019-07-20', 'M', 1, 1),
-    ('Fluffy', '2018-03-10', 'F', 2, 2),
-    ('Mittens', '2020-01-15', 'F', 1, 3),
-    ('Simba', '2017-11-28', 'M', 1, 4),
-    ('Luna', '2019-09-05', 'F', 2, 5);
+INSERT INTO Staff (FirstName, LastName, DateOfBirth)
+VALUES
+('Sarah', 'Jones', '1985-02-12'),
+('David', 'Miller', '1990-08-21'),
+('Maria', 'Garcia', '1978-09-16'),
+('Michael', 'Chen', '1982-05-04'),
+('Aisha', 'Campbell', '1995-11-23'),
+('John', 'Lee', '1988-03-10');
+GO
 
--- Inserting data into Room table
 INSERT INTO Room (RoomName, Description)
-VALUES 
-    ('VIP Suite', 'Luxurious suite with private balcony and grooming service'),
-    ('Family Room', 'Spacious room for multiple cats from the same family'),
-    ('Playroom', 'Large play area with climbing structures and toys'),
-    ('Cozy Corner', 'Quiet corner room with calming music'),
-    ('Sunshine Terrace', 'Room with natural sunlight and comfortable bedding');
+VALUES
+('Parisian Room', 'Elegant room with Eiffel Tower view, perfect for romantic getaways'),
+('Jungle Room', 'Lush greenery and playful animal décor, ideal for adventurous cats'),
+('Underwater Room', 'Relaxing ocean theme with calming blue tones and fish tank'),
+('Modern Loft', 'Sleek and stylish space with plenty of climbing opportunities'),
+('Cozy Cottage', 'Warm and inviting room with soft furnishings, good for shy cats');
+GO
+
+INSERT INTO Cat (CatName, DateOfBirth, Gender, FoodID, CatParentID)
+VALUES
+('Luna', '2023-01-15', 'F', 2, 1), 
+('Oliver', '2022-05-08', 'M', 4, 2), 
+('Milo', '2021-12-24', 'M', 1, 1), 
+('Lucy', '2023-03-12', 'F', 5, 3), 
+('Simba', '2020-07-21', 'M', 3, 3), 
+('Bella', '2022-09-05', 'F', 6, 2);
+GO
+
+INSERT INTO Price (Amount, ChangeDate, RoomID)
+VALUES
+(3350.00, '2024-02-07', 1),
+(4400.00, '2024-02-07', 2),
+(4450.00, '2024-02-07', 3),
+(5300.00, '2024-02-07', 4),
+(6250.00, '2024-02-07', 5);
+GO
+
 
 -- Inserting data into BookingStatus table
 INSERT INTO BookingStatus (BookingStatus)
@@ -63,6 +77,5 @@ VALUES
     (1, 3, 3, '2024-03-01', '2024-03-05', 'Special diet required for Fluffy', 1),
     (2, 4, 4, '2024-02-20', '2024-02-22', 'Whiskers has a vet appointment on the 23rd', 4),
     (2, 5, 5, '2024-02-28', '2024-03-05', 'Whiskers loves to sunbathe', 3);
-
 
 
