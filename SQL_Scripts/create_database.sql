@@ -27,7 +27,8 @@ CREATE TABLE Staff (
     StaffID INT PRIMARY KEY IDENTITY(1,1),
     FirstName NVARCHAR(50) NOT NULL,
     LastName NVARCHAR(50),
-    DateOfBirth DATE NOT NULL
+    DateOfBirth DATE NOT NULL,
+    CellNumber NVARCHAR(20) UNIQUE
 );
 GO
 
@@ -42,7 +43,7 @@ CREATE TABLE Cat (
     CatID INT PRIMARY KEY IDENTITY(1,1),
     CatName NVARCHAR(50) NOT NULL,
     DateOfBirth DATE,
-    Gender Char(1),
+    Sex Char(1),
     FoodID INT FOREIGN KEY REFERENCES Food(FoodID),
     CatParentID INT FOREIGN KEY REFERENCES CatParent(CatParentID)
 );
@@ -57,6 +58,12 @@ CREATE TABLE Price (
 );
 GO
 
+CREATE TABLE BookingStatus (
+    BookingStatusID INT PRIMARY KEY IDENTITY (1,1), 
+    BookingStatus VARCHAR(255)
+); 
+GO 
+    
 CREATE TABLE Booking (
     BookingID INT PRIMARY KEY IDENTITY(1,1),
     CatID INT FOREIGN KEY REFERENCES Cat(CatID),
@@ -64,6 +71,7 @@ CREATE TABLE Booking (
     RoomID INT FOREIGN KEY REFERENCES Room(RoomID),
     StartDate DATE NOT NULL,
     EndDate DATE NOT NULL,
-    Notes NVARCHAR(255)
+    Notes NVARCHAR(255), 
+    BookingStatusID INT FOREIGN KEY REFERENCES BookingStatus(BookingStatusID)
 );
 GO
