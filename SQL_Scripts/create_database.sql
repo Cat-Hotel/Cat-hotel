@@ -43,6 +43,7 @@ CREATE TABLE Staff (
     FirstName NVARCHAR(50) NOT NULL,
     LastName NVARCHAR(50),
     DateOfBirth DATE NOT NULL,
+    CellNumber NVARCHAR(20) UNIQUE,
     CONSTRAINT [PK_Staff] PRIMARY KEY CLUSTERED 
 	(
 		[StaffID] ASC
@@ -66,7 +67,7 @@ CREATE TABLE Cat (
     CatID INT IDENTITY(1,1) NOT NULL,
     CatName NVARCHAR(50) NOT NULL,
     DateOfBirth DATE,
-    Gender Char(1),
+    Sex Char(1),
     FoodID INT,
     CatParentID INT,
     CONSTRAINT [PK_Cat] PRIMARY KEY CLUSTERED 
@@ -77,7 +78,7 @@ CREATE TABLE Cat (
         REFERENCES [dbo].[Food] (FoodID),
     CONSTRAINT [FK_Cat_Parent] FOREIGN KEY (CatParentID)
         REFERENCES [dbo].[CatParent] (CatParentID),
-    CONSTRAINT CHK_Cat_Gender CHECK (Gender IN ('M','F')); 
+    CONSTRAINT CHK_Cat_Sex CHECK (Sex IN ('M','F')); 
 );
 GO
 
@@ -97,6 +98,16 @@ CREATE TABLE Price (
 );
 GO
 
+CREATE TABLE BookingStatus (
+    BookingStatusID INT IDENTITY (1,1), 
+    BookingStatus VARCHAR(255),
+    CONSTRAINT [PK_BookingStatus] PRIMARY KEY CLUSTERED 
+	(
+		[BookingStatusID] ASC
+	)
+); 
+GO 
+
 CREATE TABLE Booking (
     BookingID INT IDENTITY(1,1) NOT NULL,
     CatID INT,
@@ -105,6 +116,7 @@ CREATE TABLE Booking (
     StartDate DATE NOT NULL,
     EndDate DATE NOT NULL,
     Notes NVARCHAR(255),
+    BookingStatusID INT,
     CONSTRAINT [PK_Booking] PRIMARY KEY CLUSTERED 
 	(
 		[BookingID] ASC
@@ -115,6 +127,8 @@ CREATE TABLE Booking (
         REFERENCES [dbo].[Staff] (StaffID),
     CONSTRAINT [FK_Booking_Room] FOREIGN KEY (RoomID)
         REFERENCES [dbo].[Room] (RoomID),
+    CONSTRAINT [FK_Booking_BookingStatus] FOREIGN KEY (BookingStatusID)
+        REFERENCES [dbo].[BookingStatus] (BookingStatusID),
     CONSTRAINT CHK_Booking_Dates CHECK (StartDate < EndDate)
 );
 GO
