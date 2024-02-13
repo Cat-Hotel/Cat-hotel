@@ -1,6 +1,13 @@
 USE master;
 GO
 
+IF DB_ID (N'CatHotel') IS NOT NULL
+ALTER DATABASE CatHotel SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+
+IF DB_ID (N'CatHotel') IS NOT NULL
+DROP DATABASE CatHotel;
+GO
+
 CREATE DATABASE CatHotel;
 GO
 
@@ -8,70 +15,120 @@ USE CatHotel;
 GO
 
 CREATE TABLE CatParent (
-    CatParentID INT PRIMARY KEY IDENTITY(1,1),
+    CatParentID INT IDENTITY(1,1) NOT NULL,
     FirstName NVARCHAR(50) NOT NULL, 
     LastName NVARCHAR(50), 
     CellNumber NVARCHAR(20) UNIQUE,
-    EmailAddress NVARCHAR(100) UNIQUE
+    EmailAddress NVARCHAR(100) UNIQUE, 
+    CONSTRAINT [PK_CatParent] PRIMARY KEY CLUSTERED 
+	(
+		[CatParentID] ASC
+	)
 );
 GO
 
 CREATE TABLE Food (
-    FoodID INT PRIMARY KEY IDENTITY(1,1),
+    FoodID INT IDENTITY(1,1) NOT NULL,
     FoodName NVARCHAR(50) NOT NULL,
-    Description NVARCHAR(255)
+    Description NVARCHAR(255),
+    CONSTRAINT [PK_Food] PRIMARY KEY CLUSTERED 
+	(
+		[FoodID] ASC
+	)
 );
 GO
 
 CREATE TABLE Staff (
-    StaffID INT PRIMARY KEY IDENTITY(1,1),
+    StaffID INT IDENTITY(1,1),
     FirstName NVARCHAR(50) NOT NULL,
     LastName NVARCHAR(50),
     DateOfBirth DATE NOT NULL,
-    CellNumber NVARCHAR(20) UNIQUE
+    CellNumber NVARCHAR(20) UNIQUE,
+    CONSTRAINT [PK_Staff] PRIMARY KEY CLUSTERED 
+	(
+		[StaffID] ASC
+	),
+    CONSTRAINT CHK_Staff_DOB CHECK (DateOfBirth < GETDATE())
 );
 GO
 
 CREATE TABLE Room (
-  RoomID INT PRIMARY KEY IDENTITY(1,1),
-  RoomName NVARCHAR(50) NOT NULL,
-  Description NVARCHAR(255)
+    RoomID INT IDENTITY(1,1) NOT NULL,
+    RoomName NVARCHAR(50) NOT NULL,
+    Description NVARCHAR(255),
+    CONSTRAINT [PK_Room] PRIMARY KEY CLUSTERED 
+	(
+		[RoomID] ASC
+	)
 );
 GO
 
 CREATE TABLE Cat (
-    CatID INT PRIMARY KEY IDENTITY(1,1),
+    CatID INT IDENTITY(1,1) NOT NULL,
     CatName NVARCHAR(50) NOT NULL,
     DateOfBirth DATE,
     Sex Char(1),
-    FoodID INT FOREIGN KEY REFERENCES Food(FoodID),
-    CatParentID INT FOREIGN KEY REFERENCES CatParent(CatParentID)
+    FoodID INT,
+    CatParentID INT,
+    CONSTRAINT [PK_Cat] PRIMARY KEY CLUSTERED 
+	(
+		[CatID] ASC
+	),
+    CONSTRAINT [FK_Cat_Food] FOREIGN KEY (FoodID)
+        REFERENCES [dbo].[Food] (FoodID),
+    CONSTRAINT [FK_Cat_Parent] FOREIGN KEY (CatParentID)
+        REFERENCES [dbo].[CatParent] (CatParentID),
+    CONSTRAINT CHK_Cat_Sex CHECK (Sex IN ('M','F')); 
 );
 GO
 
 CREATE TABLE Price (
-  PriceID INT PRIMARY KEY IDENTITY(1,1),
-  Amount DECIMAL(10,2) NOT NULL,
-  ChangeDate DATE,
-  RoomID INT FOREIGN KEY REFERENCES Room(RoomID),
-  CONSTRAINT FK_Price_Room_RoomID FOREIGN KEY (RoomID) REFERENCES Room(RoomID) ON DELETE CASCADE
+    PriceID INT IDENTITY(1,1) NOT NULL,
+    Amount DECIMAL(10,2) NOT NULL,
+    ChangeDate DATE,
+    RoomID INT,
+    CONSTRAINT FK_Price_Room FOREIGN KEY (RoomID) 
+        REFERENCES [dbo].[Room] (RoomID) 
+        ON DELETE CASCADE,
+    CONSTRAINT [PK_Price] PRIMARY KEY CLUSTERED 
+	(
+		[PriceID] ASC
+	),
+    CONSTRAINT DEF_Price_ChangeDate DEFAULT GETDATE() FOR ChangeDate
 );
 GO
 
 CREATE TABLE BookingStatus (
-    BookingStatusID INT PRIMARY KEY IDENTITY (1,1), 
-    BookingStatus VARCHAR(255)
+    BookingStatusID INT IDENTITY (1,1), 
+    BookingStatus VARCHAR(255),
+    CONSTRAINT [PK_BookingStatus] PRIMARY KEY CLUSTERED 
+	(
+		[BookingStatusID] ASC
+	)
 ); 
 GO 
-    
+
 CREATE TABLE Booking (
-    BookingID INT PRIMARY KEY IDENTITY(1,1),
-    CatID INT FOREIGN KEY REFERENCES Cat(CatID),
-    StaffID INT FOREIGN KEY REFERENCES Staff(StaffID),
-    RoomID INT FOREIGN KEY REFERENCES Room(RoomID),
+    BookingID INT IDENTITY(1,1) NOT NULL,
+    CatID INT,
+    StaffID INT,
+    RoomID INT,
     StartDate DATE NOT NULL,
     EndDate DATE NOT NULL,
-    Notes NVARCHAR(255), 
-    BookingStatusID INT FOREIGN KEY REFERENCES BookingStatus(BookingStatusID)
+    Notes NVARCHAR(255),
+    BookingStatusID INT,
+    CONSTRAINT [PK_Booking] PRIMARY KEY CLUSTERED 
+	(
+		[BookingID] ASC
+	),
+    CONSTRAINT [FK_Booking_Cat] FOREIGN KEY (CatID)
+        REFERENCES [dbo].[Cat] (CatID),
+    CONSTRAINT [FK_Booking_Staff] FOREIGN KEY (StaffID)
+        REFERENCES [dbo].[Staff] (StaffID),
+    CONSTRAINT [FK_Booking_Room] FOREIGN KEY (RoomID)
+        REFERENCES [dbo].[Room] (RoomID),
+    CONSTRAINT [FK_Booking_BookingStatus] FOREIGN KEY (BookingStatusID)
+        REFERENCES [dbo].[BookingStatus] (BookingStatusID),
+    CONSTRAINT CHK_Booking_Dates CHECK (StartDate < EndDate)
 );
 GO
