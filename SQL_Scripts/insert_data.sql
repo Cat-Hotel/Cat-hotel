@@ -21,14 +21,14 @@ VALUES
 ('Feline Cuisine', 'Gourmet recipes for the discerning feline palate, good for bones');
 GO
 
-INSERT INTO Staff (FirstName, LastName, DateOfBirth)
+INSERT INTO Staff (FirstName, LastName, DateOfBirth, CellNumber)
 VALUES
-('Sarah', 'Jones', '1985-02-12'),
-('David', 'Miller', '1990-08-21'),
-('Maria', 'Garcia', '1978-09-16'),
-('Michael', 'Chen', '1982-05-04'),
-('Aisha', 'Campbell', '1995-11-23'),
-('John', 'Lee', '1988-03-10');
+('Sarah', 'Jones', '1985-02-12', '+27111111111'),
+('David', 'Miller', '1990-08-21', '+27222222222'),
+('Maria', 'Garcia', '1978-09-16', '+27333333333'),
+('Michael', 'Chen', '1982-05-04', '+27444444444'),
+('Aisha', 'Campbell', '1995-11-23', '+27555555555'),
+('John', 'Lee', '1988-03-10', '+27666666666');
 GO
 
 INSERT INTO Room (RoomName, Description)
@@ -40,7 +40,7 @@ VALUES
 ('Cozy Cottage', 'Warm and inviting room with soft furnishings, good for shy cats');
 GO
 
-INSERT INTO Cat (CatName, DateOfBirth, Gender, FoodID, CatParentID)
+INSERT INTO Cat (CatName, DateOfBirth, Sex, FoodID, CatParentID)
 VALUES
 ('Luna', '2023-01-15', 'F', 2, 1), 
 ('Oliver', '2022-05-08', 'M', 4, 2), 

@@ -4,20 +4,20 @@ GO
 CREATE OR ALTER VIEW CurrentBookingsView 
 AS
     SELECT
-        BookingID,
-        Cat.CatName AS CatName,
-        Room.RoomName AS RoomName,
-        Staff.FirstName AS Staff_FirstName,
-        Staff.LastName AS Staff_LastName,
-        Booking.StartDate AS StartDate,
-        Booking.EndDate AS EndDate
-    FROM Booking
+        b.BookingID,
+        c.CatName AS CatName,
+        r.RoomName AS RoomName,
+        s.FirstName AS Staff_FirstName,
+        s.LastName AS Staff_LastName,
+        b.StartDate AS StartDate,
+        b.EndDate AS EndDate
+    FROM Booking AS b
 
-    INNER JOIN Cat ON Booking.CatID = Cat.CatID
+    INNER JOIN Cat AS c ON b.CatID = c.CatID
 
-    INNER JOIN Room ON Booking.RoomID = Room.RoomID
+    INNER JOIN Room AS r ON b.RoomID = r.RoomID
 
-    INNER JOIN Staff ON Booking.StaffID = Staff.StaffID
+    INNER JOIN Staff as s ON b.StaffID = s.StaffID
 
-    WHERE Booking.EndDate >= GETDATE() -- Only include active bookings
+    WHERE b.EndDate >= GETDATE() AND b.BookingStatusID <> 4-- Only include active bookings
 GO

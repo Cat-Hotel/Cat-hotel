@@ -24,8 +24,8 @@ CREATE TABLE CatParent (
 	(
 		[CatParentID] ASC
 	),
-    CONSTRAINT unq_CatParent_CellNumber UNIQUE(CellNumber),
-    CONSTRAINT unq_CatParent_EmailAddress UNIQUE(EmailAddress)
+    CONSTRAINT UNQ_CatParent_CellNumber UNIQUE(CellNumber),
+    CONSTRAINT UNQ_CatParent_EmailAddress UNIQUE(EmailAddress)
 );
 GO
 
@@ -51,7 +51,7 @@ CREATE TABLE Staff (
 		[StaffID] ASC
 	),
     CONSTRAINT CHK_Staff_DOB CHECK (DateOfBirth < GETDATE()),
-    CONSTRAINT unq_Staff_CellNumber UNIQUE(CellNumber)
+    CONSTRAINT UNQ_Staff_CellNumber UNIQUE(CellNumber)
 );
 GO
 
@@ -81,14 +81,14 @@ CREATE TABLE Cat (
         REFERENCES [dbo].[Food] (FoodID),
     CONSTRAINT [FK_Cat_Parent] FOREIGN KEY (CatParentID)
         REFERENCES [dbo].[CatParent] (CatParentID),
-    CONSTRAINT CHK_Cat_Sex CHECK (Sex IN ('M','F')); 
-);
+    CONSTRAINT CHK_Cat_Sex CHECK (Sex IN ('M','F')) 
+)
 GO
 
 CREATE TABLE Price (
     PriceID INT IDENTITY(1,1) NOT NULL,
     Amount DECIMAL(10,2) NOT NULL,
-    ChangeDate DATE,
+    ChangeDate DATE CONSTRAINT DEF_Price_ChangeDate DEFAULT GETDATE(),
     RoomID INT,
     CONSTRAINT FK_Price_Room FOREIGN KEY (RoomID) 
         REFERENCES [dbo].[Room] (RoomID) 
@@ -96,8 +96,7 @@ CREATE TABLE Price (
     CONSTRAINT [PK_Price] PRIMARY KEY CLUSTERED 
 	(
 		[PriceID] ASC
-	),
-    CONSTRAINT DEF_Price_ChangeDate DEFAULT GETDATE() FOR ChangeDate
+	)
 );
 GO
 
@@ -108,7 +107,7 @@ CREATE TABLE BookingStatus (
 	(
 		[BookingStatusID] ASC
 	),
-    CONSTRAINT unq_BookingStatus_BookingStatus UNIQUE(BookingStatus)
+    CONSTRAINT UNQ_BookingStatus_BookingStatus UNIQUE(BookingStatus)
 ); 
 GO 
 
@@ -120,7 +119,7 @@ CREATE TABLE Booking (
     StartDate DATE NOT NULL,
     EndDate DATE NOT NULL,
     Notes NVARCHAR(255),
-    BookingStatusID INT,
+    BookingStatusID INT CONSTRAINT DEF_Booking_BookingStatusID DEFAULT 1,
     CONSTRAINT [PK_Booking] PRIMARY KEY CLUSTERED 
 	(
 		[BookingID] ASC
