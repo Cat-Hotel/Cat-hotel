@@ -18,12 +18,14 @@ CREATE TABLE CatParent (
     CatParentID INT IDENTITY(1,1) NOT NULL,
     FirstName NVARCHAR(50) NOT NULL, 
     LastName NVARCHAR(50), 
-    CellNumber NVARCHAR(20) UNIQUE,
-    EmailAddress NVARCHAR(100) UNIQUE, 
+    CellNumber NVARCHAR(20),
+    EmailAddress NVARCHAR(100), 
     CONSTRAINT [PK_CatParent] PRIMARY KEY CLUSTERED 
 	(
 		[CatParentID] ASC
-	)
+	),
+    CONSTRAINT unq_CatParent_CellNumber UNIQUE(CellNumber),
+    CONSTRAINT unq_CatParent_EmailAddress UNIQUE(EmailAddress)
 );
 GO
 
@@ -43,12 +45,13 @@ CREATE TABLE Staff (
     FirstName NVARCHAR(50) NOT NULL,
     LastName NVARCHAR(50),
     DateOfBirth DATE NOT NULL,
-    CellNumber NVARCHAR(20) UNIQUE,
+    CellNumber NVARCHAR(20),
     CONSTRAINT [PK_Staff] PRIMARY KEY CLUSTERED 
 	(
 		[StaffID] ASC
 	),
-    CONSTRAINT CHK_Staff_DOB CHECK (DateOfBirth < GETDATE())
+    CONSTRAINT CHK_Staff_DOB CHECK (DateOfBirth < GETDATE()),
+    CONSTRAINT unq_Staff_CellNumber UNIQUE(CellNumber)
 );
 GO
 
@@ -104,7 +107,8 @@ CREATE TABLE BookingStatus (
     CONSTRAINT [PK_BookingStatus] PRIMARY KEY CLUSTERED 
 	(
 		[BookingStatusID] ASC
-	)
+	),
+    CONSTRAINT unq_BookingStatus_BookingStatus UNIQUE(BookingStatus)
 ); 
 GO 
 
