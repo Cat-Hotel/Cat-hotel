@@ -16,7 +16,6 @@
 
    ![image](https://github.com/Cat-Hotel/Cat-hotel/assets/159034648/5be850c2-8452-4ca5-888a-7e801198fd16)
 
-
 4. Initialize Terraform by running `terraform init` in the terminal.
 5. Apply the Terraform configuration using the command `terraform apply -var-file="secrets.tfvars"`. This ensures that sensitive variables are not exposed over the internet.
 
@@ -47,15 +46,20 @@
    GO
 ### Setting Up Flyway for Database Migration
 
-1. Download and install Flyway Desktop from https://www.red-gate.com/products/flyway/community/download/
-2. ![image](https://github.com/Cat-Hotel/Cat-hotel/assets/159034648/2afad51b-766d-4aa1-8f8f-7955e511a7dd)
+1. Download and install Flyway Desktop from https://www.red-gate.com/products/flyway/community/download/\
+   
+![image](https://github.com/Cat-Hotel/Cat-hotel/assets/159034648/2afad51b-766d-4aa1-8f8f-7955e511a7dd)
 
-3. Open your project.
-4. Locate the `flyway.toml` file within the `Flyway/FlywayCatHotel/` directory and open it in Visual Studio Code (VSCode).
-5. In Flyway Desktop:
+2.  Open your project.
+3. Locate the `flyway.toml` file within the `Flyway/FlywayCatHotel/` directory and open it in Visual Studio Code (VSCode).
+4. In Flyway Desktop:
+   
    ![image](https://github.com/Cat-Hotel/Cat-hotel/assets/159034648/c41be03b-c4a7-4a5a-8ac3-5530306e4c47)
+   
    - Click on the "+" icon to add a new configuration.
-     ![image](https://github.com/Cat-Hotel/Cat-hotel/assets/159034648/dbf6171c-f15a-4623-ad92-62b55c3a0bab)
+     
+   ![image](https://github.com/Cat-Hotel/Cat-hotel/assets/159034648/dbf6171c-f15a-4623-ad92-62b55c3a0bab)
+
    - Enter the following details:
      - **ID:** CatHotelDB
      - **Display name:** Anything you prefer
@@ -69,9 +73,11 @@
      - **Password:** Same as in `secrets.tfvars`
    - Click the "Test Connection" button and wait for a green indicator.
    - Copy the JDBC URL and click "Test" and then "Save".
+     
      ![image](https://github.com/Cat-Hotel/Cat-hotel/assets/159034648/88f0ab23-4d3f-4aa2-9ad4-d05a81895f80)
-7. Go to your GitHub repository and navigate to "Actions".
-8. Go to the repository secrets and add three new secrets:
+     
+5. Go to your GitHub repository and navigate to "Actions".
+6. Go to the repository secrets and add three new secrets:
    - `DB_BUILD_PASSWORD`: Same as in `secrets.tfvars`
    - `DB_BUILD_USERNAME`: Same as in `secrets.tfvars`
    - `DB_BUILD_URL`: JDBC URL obtained from Flyway.
