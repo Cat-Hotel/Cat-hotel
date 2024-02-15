@@ -75,7 +75,7 @@ VALUES
     (1, 1, 1, '2024-02-15', '2024-02-20', 'First booking for Fluffy', 2),
     (2, 2, 2, '2024-02-18', '2024-02-25', 'Whiskers prefers wet food', 1),
     (1, 3, 3, '2024-03-01', '2024-03-05', 'Special diet required for Fluffy', 1),
-    (2, 4, 4, '2024-02-20', '2024-02-22', 'Whiskers has a vet appointment on the 23rd', 4),
-    (2, 5, 5, '2024-02-28', '2024-03-05', 'Whiskers loves to sunbathe', 3);
+    (2, 4, 4, '2024-02-26', '2024-02-30', 'Whiskers has a vet appointment on the 23rd', 4),
+    (2, 5, 5, '2024-03-05', '2024-03-10', 'Whiskers loves to sunbathe', 3);
 
 
