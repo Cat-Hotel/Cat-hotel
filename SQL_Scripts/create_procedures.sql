@@ -50,17 +50,17 @@ CREATE OR ALTER PROCEDURE [dbo].[UpdateBookingStatus]
     @BookingStatusID INT
 )
 AS
-    BEGIN TRANSACTION BookingTransaction;
+    BEGIN TRANSACTION BookingStatusTransaction;
 
     BEGIN TRY
         UPDATE dbo.Booking 
         SET	BookingStatusID = @BookingStatusID
         WHERE @BookingID = @BookingID;
-        COMMIT TRANSACTION BookingTransaction;
+        COMMIT TRANSACTION BookingStatusTransaction;
     END TRY
 
     BEGIN CATCH
         EXECUTE [dbo].[GetErrorInfo]
-        ROLLBACK TRANSACTION BookingTransaction;
+        ROLLBACK TRANSACTION BookingStatusTransaction;
     END CATCH
 GO
