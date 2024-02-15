@@ -30,12 +30,6 @@ EXEC tSQLt.AssertEquals @expected, @actual
 END
 GO
 
-SELECT * FROM dbo.GetAvailableRooms('2024-02-17', '2024-02-19')
-GO
-
-SELECT * FROM dbo.GetAvailableRooms('2025-01-01', '2025-01-05')
-GO
-
 EXEC tSQLt.NewTestClass 'TestGetAvailableRooms';
 GO
 
@@ -107,6 +101,105 @@ BEGIN
   INSERT INTO #actual (RoomID, RoomName, Description)
   SELECT RoomID, RoomName, Description
   FROM dbo.GetAvailableRooms(@TestStartDate, @TestEndDate);
+
+  EXEC tSQLt.AssertEqualsTable '#expected', '#actual';
+
+END;
+GO
+
+EXEC tSQLt.NewTestClass 'TestGetBookingStatusCount';
+GO
+
+CREATE OR ALTER PROC TestGetBookingStatusCount.[test during a single month]
+AS
+BEGIN
+  IF OBJECT_ID('[schema_name].expected', 'U') IS NOT NULL
+    DROP TABLE [schema_name].expected;
+
+  DECLARE @TestStartDate DATE = '2024-02-01';
+  DECLARE @TestEndDate DATE = '2024-02-29';
+
+  CREATE TABLE #expected (
+    BookingStatus VARCHAR(255),
+    Count int
+  );
+
+  INSERT INTO #expected (BookingStatus, Count)
+  VALUES
+    ('Canceled', 1),
+	  ('Checked out', 1),
+	  ('Pending', 1);
+
+  CREATE TABLE #actual (
+    BookingStatus VARCHAR(255),
+    Count int
+  );
+
+  INSERT INTO #actual (BookingStatus, Count)
+  SELECT BookingStatus, Count
+  FROM dbo.GetBookingStatusCount(@TestStartDate, @TestEndDate);
+
+  EXEC tSQLt.AssertEqualsTable '#expected', '#actual';
+
+END;
+GO
+
+CREATE OR ALTER PROC TestGetBookingStatusCount.[test during multiple months]
+AS
+BEGIN
+  IF OBJECT_ID('[schema_name].expected', 'U') IS NOT NULL
+    DROP TABLE [schema_name].expected;
+
+  DECLARE @TestStartDate DATE = '2024-02-01';
+  DECLARE @TestEndDate DATE = '2024-03-31';
+
+  CREATE TABLE #expected (
+    BookingStatus VARCHAR(255),
+    Count int
+  );
+
+  INSERT INTO #expected (BookingStatus, Count)
+  VALUES
+    ('Canceled', 1),
+	  ('Checked out', 1),
+	  ('Pending', 2);
+
+  CREATE TABLE #actual (
+    BookingStatus VARCHAR(255),
+    Count int
+  );
+
+  INSERT INTO #actual (BookingStatus, Count)
+  SELECT BookingStatus, Count
+  FROM dbo.GetBookingStatusCount(@TestStartDate, @TestEndDate);
+
+  EXEC tSQLt.AssertEqualsTable '#expected', '#actual';
+
+END;
+GO
+
+CREATE OR ALTER PROC TestGetBookingStatusCount.[test when no bookings]
+AS
+BEGIN
+  IF OBJECT_ID('[schema_name].expected', 'U') IS NOT NULL
+    DROP TABLE [schema_name].expected;
+
+  DECLARE @TestStartDate DATE = '2024-04-01';
+  DECLARE @TestEndDate DATE = '2024-04-30';
+
+  CREATE TABLE #expected (
+    BookingStatus VARCHAR(255),
+    Count int
+  );
+
+  CREATE TABLE #actual (
+    BookingStatus VARCHAR(255),
+    Count int
+  );
+
+  INSERT INTO #actual (BookingStatus, Count)
+  SELECT BookingStatus, Count
+  FROM dbo.GetBookingStatusCount(@TestStartDate, @TestEndDate);
 
   EXEC tSQLt.AssertEqualsTable '#expected', '#actual';
 
