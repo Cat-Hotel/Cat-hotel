@@ -119,7 +119,7 @@ CREATE TABLE Booking (
     StartDate DATE NOT NULL,
     EndDate DATE NOT NULL,
     Notes NVARCHAR(255),
-    BookingStatusID INT CONSTRAINT DEF_Booking_BookingStatusID DEFAULT 1,
+    BookingStatusID INT CONSTRAINT DEF_Booking_BookingStatusID DEFAULT 6,
     CONSTRAINT [PK_Booking] PRIMARY KEY CLUSTERED 
 	(
 		[BookingID] ASC

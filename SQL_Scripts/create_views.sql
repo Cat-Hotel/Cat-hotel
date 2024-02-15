@@ -19,5 +19,7 @@ AS
 
     INNER JOIN Staff as s ON b.StaffID = s.StaffID
 
-    WHERE b.EndDate >= GETDATE() AND b.BookingStatusID <> 4-- Only include active bookings
+    INNER JOIN BookingStatus bs ON b.BookingStatusID = bs.BookingStatusID
+
+    WHERE b.EndDate >= GETDATE() AND bs.BookingStatus <> 'Canceled'-- Only include active bookings
 GO

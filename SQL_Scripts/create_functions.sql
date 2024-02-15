@@ -14,8 +14,9 @@ BEGIN
     FROM Booking b
     JOIN Cat c ON b.CatID = c.CatID
     JOIN Room r ON b.RoomID = r.RoomID
-    JOIN Price P on r.RoomID = p.RoomID
-    WHERE c.CatParentID = @CatParentID AND b.BookingStatusID <> 4
+    JOIN Price p ON r.RoomID = p.RoomID
+    JOIN BookingStatus s ON b.BookingStatusID = s.BookingStatusID
+    WHERE c.CatParentID = @CatParentID AND s.BookingStatus <> 'Canceled'
 	ORDER BY b.BookingID DESC;
 
 	RETURN @TotalCost;
@@ -43,11 +44,12 @@ AS
         WHERE
             RoomID NOT IN 
             (
-                SELECT DISTINCT RoomID
-                FROM Booking
-                WHERE StartDate <= @EndDate 
-                    AND EndDate >= @StartDate 
-                    AND BookingStatusID <> 4
+                SELECT DISTINCT b.RoomID
+                FROM Booking as b
+                JOIN BookingStatus s ON b.BookingStatusID = s.BookingStatusID
+                WHERE b.StartDate <= @EndDate 
+                    AND b.EndDate >= @StartDate 
+                    AND s.BookingStatus <> 'Canceled'
             )
     );
 GO
