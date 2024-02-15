@@ -13,10 +13,6 @@ BEGIN
             OR (i.StartDate >= b.StartDate AND i.EndDate <= b.EndDate)
         )
         AND i.BookingID <> b.BookingID
-    ) AND NOT EXISTS (
-        SELECT 1
-        FROM inserted i
-        WHERE i.BookingStatusID = 4
     )
     BEGIN
         RAISERROR ('Overlapping booking is not allowed.', 16, 1);
