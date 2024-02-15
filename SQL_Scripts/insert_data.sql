@@ -47,7 +47,10 @@ VALUES
 ('Milo', '2021-12-24', 'M', 1, 1), 
 ('Lucy', '2023-03-12', 'F', 5, 3), 
 ('Simba', '2020-07-21', 'M', 3, 3), 
-('Bella', '2022-09-05', 'F', 6, 2);
+('Bella', '2022-09-05', 'F', 6, 2),
+('Bovril', '2021-01-01', 'M', 1, 4),
+('Fifi', '2023-11-18', 'M', 2, 5),
+('Frank', '2019-02-14', 'F', 6, 6);
 GO
 
 INSERT INTO Price (Amount, ChangeDate, RoomID)
@@ -76,6 +79,13 @@ VALUES
     (2, 2, 2, '2024-02-18', '2024-02-25', 'Whiskers prefers wet food', 1),
     (1, 3, 3, '2024-03-01', '2024-03-05', 'Special diet required for Fluffy', 1),
     (2, 4, 4, '2024-02-20', '2024-02-22', 'Whiskers has a vet appointment on the 23rd', 4),
-    (2, 5, 5, '2024-02-28', '2024-03-05', 'Whiskers loves to sunbathe', 3);
+    (2, 5, 5, '2024-02-28', '2024-03-05', 'Whiskers loves to sunbathe', 1),
+    (3, 6, 1, '2023-12-15', '2023-12-20', 'Milo needs plenty of toys', 3),
+    (4, 1, 2, '2024-01-18', '2024-01-25', 'Needs to be fed twice a day', 5),
+    (5, 2, 3, '2024-04-01', '2024-04-05', 'Likes cacti a bit too much', 4),
+    (6, 3, 4, '2024-02-20', '2024-02-24', 'Does not like cacti', 1),
+    (7, 4, 5, '2024-02-12', '2024-02-18', 'Has not yet come to a conclusion about cacti', 2),
+    (8, 5, 1, '2024-02-25', '2024-02-27', 'Ate a cactus once', 1),
+    (9, 6, 2, '2024-02-01', '2024-02-05', 'Has no idea what is going on ever', 5);
 
 
